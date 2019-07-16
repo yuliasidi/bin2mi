@@ -1,0 +1,17 @@
+Package: bin2mi
+Type: Package
+Title: Binary Multiple Imputations
+Version: 0.1.1
+Description: More about what it does (maybe more than one line) Use four spaces when indenting
+           paragraphs within the Description.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.0
+Suggests: testthat
+Imports: dplyr,stats,purrr,rlang,tibble,tidyr
+Authors@R: 
+    c(person(given = "Yulia",
+             family = "Sidi",
+             role = "cre",
+             email = "yulia.sidi@uconn.edu"))

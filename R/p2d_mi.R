@@ -16,7 +16,7 @@ p2d_mi <- function(dt, m2) {
     dplyr::mutate(phat_var = phat*(1 - phat)/n_obs)%>%
 
     dplyr::mutate(phat_var = phat*(1 - phat)/n_obs)%>%
-    tidyr::gather('var','val',-c(n,trt))%>%
+    tidyr::gather('var','val',-c(n,trt,dplyr::starts_with('m')))%>%
     tidyr::unite(x, trt, var)%>%
     tidyr::spread(x, val)%>%
     dplyr::mutate(pc_rmle = p_rmle(m2 = m2, nt = t_n_obs, nc = c_n_obs, pc = c_phat, pt = t_phat),

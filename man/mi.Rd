@@ -4,7 +4,7 @@
 \alias{mi}
 \title{multitple imputation for proportions}
 \usage{
-mi(dt, n_mi, m_mi = 0, mu_k = 1, sd_k = 0, ym)
+mi(dt, n_mi, m_mi = 0, mu_k = 1, sd_k = 0, ym, phat_out = TRUE)
 }
 \arguments{
 \item{dt}{dataframe/tibble}
@@ -21,9 +21,12 @@ multiplier k}
 distribution of multiplier k}
 
 \item{ym}{integer, incomplete binary column}
+
+\item{phat_out}{logic, Default TRUE}
 }
 \value{
-tibble, summary per imputation
+tibble, summary per imputation or if phat_out=FALSE, returns imputed
+ data (available only for one-stage imputation)
 }
 \description{
 employs one/two-stage multiple imputation for proportions

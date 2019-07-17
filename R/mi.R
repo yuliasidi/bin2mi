@@ -9,7 +9,9 @@
 #' @param sd_k numeric, Default: 0, standard deviation value for normal
 #' distribution of multiplier k
 #' @param ym integer, incomplete binary column
-#' @return tibble, summary per imputation
+#' @param phat_out logic, Default TRUE
+#' @return tibble, summary per imputation or if phat_out=FALSE, returns imputed
+#'  data (available only for one-stage imputation)
 #' @details DETAILS
 #' @examples
 #' dt <- tibble::tibble(y = rbinom(100,1,0.6))
@@ -30,7 +32,7 @@
 #' @importFrom rlang sym
 #' @importFrom stats runif rbeta rnorm
 #' @importFrom tidyr unnest
-mi <- function(dt, n_mi, m_mi=0, mu_k=1, sd_k=0, ym){
+mi <- function(dt, n_mi, m_mi=0, mu_k=1, sd_k=0, ym, phat_out = TRUE){
 
   #count number of successes and failure to be used in the posterior distribution of p
   ym.sum <- sf_count(dt, ym)
@@ -47,7 +49,9 @@ mi <- function(dt, n_mi, m_mi=0, mu_k=1, sd_k=0, ym){
         dplyr::select(p.thresh, pstar)%>%
         dplyr::bind_rows(dt%>%
                            dplyr::filter(!is.na(!!rlang::sym(ym)))%>%
-                           dplyr::select(!!rlang::sym(ym)))
+                           dplyr::select(!!rlang::sym(ym)))%>%
+        dplyr::mutate(y.im = dplyr::case_when(is.na(!!rlang::sym(ym)) ~ ifelse(pstar>=p.thresh, 1, 0),
+                                              !is.na(!!rlang::sym(ym)) ~ as.numeric(!!rlang::sym(ym))))
     }))
 
 
@@ -58,8 +62,6 @@ mi <- function(dt, n_mi, m_mi=0, mu_k=1, sd_k=0, ym){
       t%>%
       dplyr::mutate(dt.mi.sum = purrr::map(dt.mi, .f = function(x){
         x%>%
-          dplyr::mutate(y.im = dplyr::case_when(is.na(!!rlang::sym(ym)) ~ ifelse(pstar>=p.thresh, 1, 0),
-                                         !is.na(!!rlang::sym(ym)) ~ as.numeric(!!rlang::sym(ym))))%>%
           dplyr::summarise(phat = mean(y.im), n_obs = dplyr::n())
       }))%>%
       dplyr::select(n, dt.mi.sum)%>%
@@ -81,6 +83,7 @@ mi <- function(dt, n_mi, m_mi=0, mu_k=1, sd_k=0, ym){
         t%>%
           tidyr::unnest()%>%
           dplyr::mutate(pstar.k = k * pstar)%>%
+          dplyr::select(-y.im)%>%
           dplyr::mutate(y.im = dplyr::case_when(is.na(!!rlang::sym(ym)) ~ ifelse(pstar.k>=p.thresh, 1, 0),
                                          !is.na(!!rlang::sym(ym)) ~ as.numeric(!!rlang::sym(ym))))%>%
           dplyr::group_by(n)%>%
@@ -92,6 +95,11 @@ mi <- function(dt, n_mi, m_mi=0, mu_k=1, sd_k=0, ym){
 
   }
 
-  return(t1)
+  if (!phat_out){
+    return(t)
+  }
+  else{
+    return(t1)
+  }
 
 }

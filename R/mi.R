@@ -45,7 +45,7 @@ mi <- function(dt, n_mi, m_mi=0, mu_k=1, sd_k=0, ym, phat_out = TRUE){
         dplyr::filter(is.na(!!rlang::sym(ym)))%>%
         dplyr::mutate(
           p.thresh = stats::runif(dplyr::n(), 0, 1),
-          pstar = stats::rbeta(dplyr::n(), shape1 = ym.sum$success - 1, shape2 = ym.sum$fail - 1))%>%
+          pstar = stats::rbeta(dplyr::n(), shape1 = ym.sum$success + 1, shape2 = ym.sum$fail + 1))%>%
         dplyr::select(p.thresh, pstar)%>%
         dplyr::bind_rows(dt%>%
                            dplyr::filter(!is.na(!!rlang::sym(ym)))%>%

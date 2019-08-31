@@ -37,7 +37,7 @@ p2_eval <- function(dt, m2, mi_level=1){
   if (mi_level==2){
     dt2 <-
       dt1%>%
-      dplyr::group_by(method, mu_k, sd_k)%>%
+      dplyr::group_by(method)%>%
       dplyr::summarise(mean_qbar = mean(qbar), mean_cov = mean(coverage), mean_length = mean(ci_length),
                        mean_outrange = mean(outrange), mean_width0 = mean(width0))
 

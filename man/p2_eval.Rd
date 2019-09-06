@@ -4,14 +4,12 @@
 \alias{p2_eval}
 \title{difference in propotions evaluation}
 \usage{
-p2_eval(dt, m2, mi_level = 1)
+p2_eval(dt, m2)
 }
 \arguments{
 \item{dt}{tibble which contains simulation results}
 
 \item{m2}{numeric, pre-specified margin}
-
-\item{mi_level}{factor, PARAM_DESCRIPTION, Default: 1}
 }
 \value{
 tibble

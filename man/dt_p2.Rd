@@ -4,7 +4,8 @@
 \alias{dt_p2}
 \title{creates dataset for two binomial proportions}
 \usage{
-dt_p2(n, pc, pt, add_x = FALSE, xs_y0 = 0.6, xs_y1 = 0.2, xw = 0.6)
+dt_p2(n, pc, pt, add_x = FALSE, xs_y0 = 0.6, xs_y1 = 0.2, xw = 0.6,
+  add_xcont = FALSE)
 }
 \arguments{
 \item{n}{integer, number of observation per group, 1:1 ratio assumed}
@@ -13,7 +14,8 @@ dt_p2(n, pc, pt, add_x = FALSE, xs_y0 = 0.6, xs_y1 = 0.2, xw = 0.6)
 
 \item{pt}{numeric, probability of event in group 't'}
 
-\item{add_x}{logic, Default: FALSE, specifies whether to add variable x}
+\item{add_x}{logic, Default: FALSE, specifies whether to add binarry
+variable x}
 
 \item{xs_y0}{numeric, Default: 0.6, for strong correlation between x and y,
 define conditional probability of x given y=0}
@@ -23,6 +25,9 @@ define conditional probability of x given y=1}
 
 \item{xw}{numeric, Default: 0.6, for weak correlation between x and y,
 define prrobability of x (irrespective of the value of y)}
+
+\item{add_xcont}{logic, Default: FALSE, specifies whether to add continuous
+variable x}
 }
 \value{
 OUTPUT_DESCRIPTION

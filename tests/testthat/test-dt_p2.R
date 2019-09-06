@@ -4,6 +4,7 @@ nobs = 5000
 
 obj  <- dt_p2(nobs, 0.7, 0.65)
 objx <- dt_p2(nobs, 0.7, 0.65, add_x = T)
+objxc <- dt_p2(nobs, 0.7, 0.65, add_xcont = T)
 
 
 testthat::describe('basic usage',{
@@ -16,12 +17,20 @@ testthat::describe('basic usage',{
     testthat::expect_true(inherits(objx,'tbl'))
   })
 
+  it('classxc',{
+    testthat::expect_true(inherits(objxc,'tbl'))
+  })
+
   it('dim',{
     testthat::expect_equal(dim(obj),c(2*nobs,2))
   })
 
   it('dimx',{
     testthat::expect_equal(dim(objx),c(4*nobs,4))
+  })
+
+  it('dimxc',{
+    testthat::expect_equal(dim(objxc),c(4*nobs,4))
   })
 
 })
@@ -73,6 +82,32 @@ testthat::describe('y probs',{
 
   it('y in t in objx',{
     testthat::expect_equal(mean(objx$y[objx$trt=='t']), 0.65, tolerance=0.04)
+  })
+
+  it('y in c in objxc',{
+    testthat::expect_gt(cor(objxc$y[objxc$x_desc=="strong" &
+                                      objxc$trt == 'c'],
+                            objxc$x[objxc$x_desc=="strong" &
+                                      objxc$trt == 'c']), 0.3)
+  })
+  it('y in t in objxc',{
+    testthat::expect_gt(cor(objxc$y[objxc$x_desc=="strong" &
+                                       objxc$trt == 't'],
+                            objxc$x[objxc$x_desc=="strong" &
+                                       objxc$trt == 't']), 0.3)
+  })
+
+  it('y in c in objxc',{
+    testthat::expect_lt(cor(objxc$y[objxc$x_desc=="weak" &
+                                       objxc$trt == 'c'],
+                            objxc$x[objxc$x_desc=="weak" &
+                                       objxc$trt == 'c']), 0.1)
+  })
+  it('y in t in objxc',{
+    testthat::expect_lt(cor(objxc$y[objxc$x_desc=="weak" &
+                                       objxc$trt == 't'],
+                            objxc$x[objxc$x_desc=="weak" &
+                                       objxc$trt == 't']), 0.1)
   })
 
 })

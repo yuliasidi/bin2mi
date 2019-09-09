@@ -29,7 +29,7 @@ gibbs_bin <- function(dt, B = 1000, y.m = 'y.m'){
     pstar[i] <- stats::rbeta(n = 1, shape1 = vec[['success']], shape2 = vec[['fail']])
 
     dt[[y.im]]  <- dt[[y.m]]
-    dt[dt$r==1,y.im] <- stats::rbinom(sum(dt$r==1), 1, pstar)
+    dt[dt$r==1,y.im] <- stats::rbinom(sum(dt$r==1), 1, pstar[i])
 
   }
 

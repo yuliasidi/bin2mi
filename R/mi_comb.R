@@ -10,8 +10,9 @@
 #' @details DETAILS
 #' @examples
 #' dt <- tibble::tibble(y = rbinom(100,1,0.6))
-#' dt$ym <- c(rep(NA, 10), dt$y[11:100])
-#' dt_mi <- mi(dt, 5, ym = 'ym')
+#' dt$y.m <- c(rep(NA, 10), dt$y[11:100])
+#' dt$r <- ifelse(is.na(dt$y.m)==TRUE, 1, 0)
+#' dt_mi <- mi(dt, 5)
 #' dt_mi$phat_var <- dt_mi$phat*(1 - dt_mi$phat)/dt_mi$n_obs
 #' mi_comb(dt_mi, level = 1, 'phat', 'phat_var')
 #' @seealso
@@ -32,7 +33,8 @@ mi_comb <- function(dt, level = c(1,2), phat, var_phat){
                        b = stats::var(!!rlang::sym(phat)),
                        n = dplyr::n())%>%
       dplyr::mutate(t = (1 + 1/n)*b + ubar,
-                    rn = (1 + 1/n)*b/ubar,
+                    rn = dplyr::case_when(b!= 0 ~ (1 + 1/n)*b/ubar,
+                                          TRUE ~ as.numeric(0)),
                     v = dplyr::case_when(b!= 0 ~ floor((n - 1)*(1 + ubar/((1+1/n)*b))^2),
                                   TRUE  ~ as.numeric(1000000000)))
 

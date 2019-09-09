@@ -28,8 +28,9 @@ DETAILS
 }
 \examples{
 dt <- tibble::tibble(y = rbinom(100,1,0.6))
-dt$ym <- c(rep(NA, 10), dt$y[11:100])
-dt_mi <- mi(dt, 5, ym = 'ym')
+dt$y.m <- c(rep(NA, 10), dt$y[11:100])
+dt$r <- ifelse(is.na(dt$y.m)==TRUE, 1, 0)
+dt_mi <- mi(dt, 5)
 dt_mi$phat_var <- dt_mi$phat*(1 - dt_mi$phat)/dt_mi$n_obs
 mi_comb(dt_mi, level = 1, 'phat', 'phat_var')
 }

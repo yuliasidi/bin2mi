@@ -4,7 +4,8 @@
 \alias{mi}
 \title{multitple imputation for proportions}
 \usage{
-mi(dt, n_mi, m_mi = 0, mu_k = 1, sd_k = 0, ym, phat_out = TRUE)
+mi(dt, n_mi, m_mi = 0, mu_k = 1, sd_k = 0, y.m = "y.m",
+  phat_out = TRUE)
 }
 \arguments{
 \item{dt}{dataframe/tibble}
@@ -20,7 +21,7 @@ multiplier k}
 \item{sd_k}{numeric, Default: 0, standard deviation value for normal
 distribution of multiplier k}
 
-\item{ym}{integer, incomplete binary column}
+\item{y.m}{character, incomplete binary column, Defualt = 'y.m'}
 
 \item{phat_out}{logic, Default TRUE}
 }
@@ -36,13 +37,13 @@ DETAILS
 }
 \examples{
 dt <- tibble::tibble(y = rbinom(100,1,0.6))
-dt$ym <- c(rep(NA, 10), dt$y[11:100])
- mi(dt, 5, ym = 'ym')
- mi(dt, 2, 10, mu_k = 1.3, sd_k = 0.1, ym = 'ym')
+dt$y.m <- c(rep(NA, 10), dt$y[11:100])
+dt$r <- ifelse(is.na(dt$y.m)==TRUE, 1, 0)
+ mi(dt, 5, y.m = 'y.m')
+ mi(dt, 2, 10, mu_k = 1.3, sd_k = 0.1, y.m = 'y.m')
 }
 \seealso{
-\code{\link[bin2mi]{sf_count}}
- \code{\link[tibble]{tibble}}
+\code{\link[tibble]{tibble}}
  \code{\link[purrr]{map}}
  \code{\link[rlang]{sym}}
  \code{\link[tidyr]{unnest}}

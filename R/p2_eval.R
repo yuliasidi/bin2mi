@@ -5,7 +5,6 @@
 #' @param dt tibble which contains simulation results
 #' @param m2  numeric, pre-specified margin
 #' @return tibble
-#' @details DETAILS
 #' @seealso
 #'  \code{\link[purrr]{map}}
 #' @rdname p2_eval

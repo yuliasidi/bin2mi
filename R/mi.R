@@ -68,14 +68,18 @@ mi <- function(dt, n_mi, m_mi=0, mu_k=1, sd_k=0,  y.m = 'y.m', phat_out = TRUE){
 
           tt <- t%>%
             mutate(dt.mi.new =  purrr::map(dt.mi, .f = function(dt.mi){
-              pstar.k <- k * dt.mi$pstar
-              dt.mi[[y.im]]  <- dt.mi[[y.m]]
-              dt.mi[dt.mi$r==1,y.im] <- stats::rbinom(sum(dt.mi$r==1), 1, min(pstar.k,1))
+              pstar.k <- k * dt.mi$pstar[1]
 
-              out <- dt.mi%>%
+              dt.tmp <- dt.mi
+              dt.tmp[[y.im]]  <- dt.tmp[[y.m]]
+
+              dt.tmp[dt.tmp$r==1,y.im] <- stats::rbinom(sum(dt.tmp$r==1), 1, min(pstar.k,1))
+              dt.tmp$pstar.k <- min(pstar.k,1)
+
+              dt.tmp%>%
                 dplyr::summarise(phat = mean(y.im), n_obs = dplyr::n())
 
-              out
+
             }))%>%
             dplyr::select(-dt.mi)%>%
             tidyr::unnest()

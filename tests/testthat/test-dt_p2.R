@@ -30,7 +30,7 @@ testthat::describe('basic usage',{
   })
 
   it('dimxc',{
-    testthat::expect_equal(dim(objxc),c(4*nobs,4))
+    testthat::expect_equal(dim(objxc),c(2*nobs,3))
   })
 
 })
@@ -84,30 +84,8 @@ testthat::describe('y probs',{
     testthat::expect_equal(mean(objx$y[objx$trt=='t']), 0.65, tolerance=0.04)
   })
 
-  it('y in c in objxc',{
-    testthat::expect_gt(cor(objxc$y[objxc$x_desc=="strong" &
-                                      objxc$trt == 'c'],
-                            objxc$x[objxc$x_desc=="strong" &
-                                      objxc$trt == 'c']), 0.3)
+  it('cor(y,x) in objxc',{
+    testthat::expect_gt(cor(objxc$y,
+                            objxc$x), 0.2)
   })
-  it('y in t in objxc',{
-    testthat::expect_gt(cor(objxc$y[objxc$x_desc=="strong" &
-                                       objxc$trt == 't'],
-                            objxc$x[objxc$x_desc=="strong" &
-                                       objxc$trt == 't']), 0.3)
-  })
-
-  it('y in c in objxc',{
-    testthat::expect_lt(cor(objxc$y[objxc$x_desc=="weak" &
-                                       objxc$trt == 'c'],
-                            objxc$x[objxc$x_desc=="weak" &
-                                       objxc$trt == 'c']), 0.1)
-  })
-  it('y in t in objxc',{
-    testthat::expect_lt(cor(objxc$y[objxc$x_desc=="weak" &
-                                       objxc$trt == 't'],
-                            objxc$x[objxc$x_desc=="weak" &
-                                       objxc$trt == 't']), 0.1)
-  })
-
 })

@@ -59,7 +59,8 @@ mi <- function(dt, n_mi, m_mi=0, mu_k=1, sd_k=0,  y.m = 'y.m', phat_out = TRUE){
     if (m_mi>0){
 
       k.mults <- tibble::tibble(m = seq(1, m_mi,1),
-                                k = stats::rnorm(m_mi, mu_k, sd_k))
+                                k = stats::rnorm(m_mi, mu_k, sd_k))%>%
+        dplyr::mutate(k = ifelse(k>0, k, 0))
 
       # multiply phats for each arm separetly, set 0/1 for incomplete outcomes and combine imputed perrr arm data
       t1 <-

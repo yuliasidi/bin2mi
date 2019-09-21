@@ -68,29 +68,10 @@ dt_p2 <- function(n, pc, pt, add_x = FALSE, xs_y0 = 0.6, xs_y1 = 0.2, xw = 0.6,
 
   if (add_xcont){
 
-    dtfull <- dtfull%>%
-      split(.$trt)%>%
-      purrr::map_df(.f = function(dx){
-
-        dx0 <- dx%>%
-          dplyr::filter(y == 0)%>%
-          dplyr::mutate(x = stats::rnorm(n = dplyr::n(), 0, 1),
-                        x_desc = "strong")
-
-        dx1 <- dx%>%
-          dplyr::filter(y == 1)%>%
-          dplyr::mutate(x = stats::rnorm(n = dplyr::n(), 1, 1),
-                        x_desc = "strong")
-
-
-          dplyr::bind_rows(dx0, dx1,
-                           dx%>%
-                             dplyr::mutate(x = stats::rnorm(n = dplyr::n(), 0, 1),
-                                           x_desc = "weak")
-                           )
-
-      }
-      )
+  dtfull$x <- -100
+  dtfull[dtfull$trt=='c' & dtfull$y==0, 'x'] <- stats::rnorm(n = length(dtfull$y[dtfull$trt=='c' & dtfull$y==0]), 0, 1)
+  dtfull[dtfull$trt=='c' & dtfull$y==1, 'x'] <- stats::rnorm(n = length(dtfull$y[dtfull$trt=='c' & dtfull$y==1]), 1, 1)
+  dtfull[dtfull$trt=='t', 'x'] <- stats::rnorm(n = length(dtfull$y[dtfull$trt=='t']), 0, 1)
 
   }
 

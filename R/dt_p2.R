@@ -70,9 +70,9 @@ dt_p2 <- function(n, pc, pt, add_x = FALSE, xs_y0 = 0.6, xs_y1 = 0.2, xw = 0.6,
 
   dtfull$x <- -100000
   dtfull[dtfull$trt=='c' & dtfull$y==0, 'x'] <- stats::rnorm(n = length(dtfull$y[dtfull$trt=='c' & dtfull$y==0]), 100, 20)
-  dtfull[dtfull$trt=='c' & dtfull$y==1, 'x'] <- stats::rnorm(n = length(dtfull$y[dtfull$trt=='c' & dtfull$y==1]), 150, 20)
+  dtfull[dtfull$trt=='c' & dtfull$y==1, 'x'] <- stats::rnorm(n = length(dtfull$y[dtfull$trt=='c' & dtfull$y==1]), 180, 20)
   dtfull[dtfull$trt=='t' & dtfull$y==0, 'x'] <- stats::rnorm(n = length(dtfull$y[dtfull$trt=='t' & dtfull$y==0]), 80, 20)
-  dtfull[dtfull$trt=='t' & dtfull$y==1, 'x'] <- stats::rnorm(n = length(dtfull$y[dtfull$trt=='t' & dtfull$y==1]), 100, 20)
+  dtfull[dtfull$trt=='t' & dtfull$y==1, 'x'] <- stats::rnorm(n = length(dtfull$y[dtfull$trt=='t' & dtfull$y==1]), 130, 20)
   }
 
 

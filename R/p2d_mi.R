@@ -14,11 +14,11 @@
 p2d_mi <- function(dt, m2) {
   dt%>%
     dplyr::mutate(phat_var = phat*(1 - phat)/n_obs)%>%
-
     dplyr::mutate(phat_var = phat*(1 - phat)/n_obs)%>%
     tidyr::gather('var','val',-c(n,trt,dplyr::starts_with('m')))%>%
     tidyr::unite(x, trt, var)%>%
     tidyr::spread(x, val)%>%
+    tidyr::unnest(cols=c(c_n_obs,c_phat,c_phat_var,t_n_obs,t_phat,t_phat_var))%>%
     dplyr::mutate(pc_rmle = p_rmle(m2 = m2, nt = t_n_obs, nc = c_n_obs, pc = c_phat, pt = t_phat),
                   pt_rmle = pc_rmle - m2)%>%
     dplyr::mutate(phat_d = c_phat - t_phat,

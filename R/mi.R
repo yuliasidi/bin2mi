@@ -51,7 +51,7 @@ mi <- function(dt, n_mi, m_mi=0, mu_k=1, sd_k=0,  y.m = 'y.m', phat_out = TRUE){
             dplyr::summarise(phat = mean(y.im), n_obs = dplyr::n())
         }))%>%
         dplyr::select(n, dt.mi.sum)%>%
-        tidyr::unnest()
+        tidyr::unnest(cols = c(dt.mi.sum))
 
     }
 
@@ -83,10 +83,10 @@ mi <- function(dt, n_mi, m_mi=0, mu_k=1, sd_k=0,  y.m = 'y.m', phat_out = TRUE){
 
             }))%>%
             dplyr::select(-dt.mi)%>%
-            tidyr::unnest()
+            tidyr::unnest(cols = c(dt.mi.sum))
 
         }))%>%
-        tidyr::unnest()
+        tidyr::unnest(cols = c(dt.mi.sum))
 
 
     }
